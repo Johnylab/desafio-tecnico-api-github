@@ -1,4 +1,23 @@
-async function fetchUserData(username: string) {
+type Repository = {
+  id: number;
+  name: string;
+  html_url: string;
+};
+
+type UserData = Partial<{
+  name: string;
+  login: string;
+  avatar_url: string;
+  html_url: string;
+  followers: number;
+  following: number;
+  public_repos: number;
+  repos: Repository[];
+  message: string;
+  last_updated_at: Date;
+}>;
+
+async function fetchUserData(username: string): Promise<UserData> {
   try {
     const userResponse = await fetch(
       `https://api.github.com/users/${username}`
@@ -6,7 +25,7 @@ async function fetchUserData(username: string) {
 
     if (!userResponse.ok) {
       return {
-        error: 'Usuário não encontrado',
+        message: 'Usuário não encontrado',
       };
     }
 
@@ -16,7 +35,7 @@ async function fetchUserData(username: string) {
     if (!reposResponse.ok) {
       return {
         ...userProfile,
-        error: 'Repositórios não encontrados',
+        message: 'Repositórios não encontrados',
       };
     }
 
@@ -31,9 +50,11 @@ async function fetchUserData(username: string) {
       err instanceof Error ? err : new Error('Ocorreu um erro desconhecido');
 
     return {
-      error: error.message,
+      message: error.message,
     };
   }
 }
 
 export { fetchUserData };
+
+export type { UserData };

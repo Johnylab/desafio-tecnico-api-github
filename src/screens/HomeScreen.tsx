@@ -1,45 +1,51 @@
+import type { ChangeEvent, FormEvent } from 'react';
 import { useContext, useState } from 'react';
-import type { ChangeEvent } from 'react';
-import { GlobalContext } from '../context/GlobalContext';
 import { Link } from 'react-router-dom';
+import { GlobalContext } from '../context/GlobalContext';
 
 function HomeScreen() {
   const [username, setUsername] = useState('');
   const { userData, loadUserData } = useContext(GlobalContext);
 
-  async function onSearchClick() {
-    await loadUserData(username);
+  function onSearchInput(e: ChangeEvent<HTMLInputElement>) {
+    setUsername(e.target.value);
+  }
+
+  function onSearchSubmit(e: FormEvent) {
+    e.preventDefault();
+
+    if (!username) {
+      return;
+    }
+
+    loadUserData(username);
   }
 
   return (
     <div>
-      <h1>Procurar usuário do GitHub</h1>
+      <h1>Buscar usuário do GitHub</h1>
 
-      <input
-        type="text"
-        placeholder="Digite o nome do usuário"
-        value={username}
-        onInput={(e: ChangeEvent<HTMLInputElement>) =>
-          setUsername(e.target.value)
-        }
-      />
+      <form onSubmit={onSearchSubmit}>
+        <input
+          type="text"
+          placeholder="Digite o nome do usuário"
+          value={username}
+          onInput={onSearchInput}
+        />
+        <button type="submit">Buscar</button>
+      </form>
 
-      <button type="button" onClick={onSearchClick}>
-        Buscar
-      </button>
-
-      {userData.error && <p>{userData.error}</p>}
+      {userData.message && <p>{userData.message}</p>}
 
       {userData.login && (
-        <div>
+        <>
           <img src={userData.avatar_url} alt={userData.name} width={90} />
           <p>
             <Link to={`/${userData.login}`}>
               {userData.name || userData.login}
             </Link>
           </p>
-          <p>{userData.public_repos}</p>
-        </div>
+        </>
       )}
     </div>
   );

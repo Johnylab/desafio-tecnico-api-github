@@ -1,24 +1,7 @@
-import { createContext, useCallback, useState } from 'react';
 import type { PropsWithChildren } from 'react';
-import { fetchUserData } from '../github/api';
-
-type Repository = {
-  id: number;
-  name: string;
-  html_url: string;
-};
-
-type UserData = Partial<{
-  name: string;
-  login: string;
-  avatar_url: string;
-  html_url: string;
-  followers: number;
-  following: number;
-  public_repos: number;
-  repos: Repository[];
-  error: string;
-}>;
+import { createContext, useCallback, useState } from 'react';
+import { UserData, fetchUserData } from '../github/api';
+import { getStorage, setStorage } from '../utils/storage';
 
 type GlobalContextType = {
   userData: UserData;
@@ -40,15 +23,28 @@ export const GlobalProvider = ({ children }: PropsWithChildren) => {
       return;
     }
 
+    const storageKey = `@gh-user:${username.toLowerCase()}`;
+    const userPersistedData = getStorage(storageKey, null);
+    if (userPersistedData) {
+      setUserProfile(userPersistedData);
+      return;
+    }
+
     if (username.includes(' ')) {
       setUserProfile({
-        error: 'O nome de usuário não pode conter espaços',
+        message: 'O nome de usuário não pode conter espaços',
+        last_updated_at: new Date(),
       });
       return;
     }
 
+    setUserProfile({ message: 'Carregando...' });
     const response = await fetchUserData(username);
-    setUserProfile(response);
+    const userData = response.login
+      ? { ...response, last_updated_at: new Date() }
+      : response;
+    setUserProfile(userData);
+    setStorage(storageKey, userData);
   }, []);
 
   return (
