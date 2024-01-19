@@ -1,21 +1,16 @@
 import { useContext, useEffect } from 'react';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalContext';
 
-function UserProfileScreen() {
+function UserScreen() {
   const { username } = useParams<{ username: string }>();
   const { userData, loadUserData } = useContext(GlobalContext);
-  const isUserLoaded = !!userData.login || !!userData.message;
 
   useEffect(() => {
-    if (username && !isUserLoaded) {
+    if (username) {
       loadUserData(username);
     }
-  }, [username, isUserLoaded, loadUserData]);
-
-  if (!username) {
-    return <Navigate to="/" replace />;
-  }
+  }, [username, loadUserData]);
 
   if (userData.message) {
     return <p>{userData.message}</p>;
@@ -28,9 +23,17 @@ function UserProfileScreen() {
   return (
     <div>
       <h1>{userData.name || userData.login}</h1>
-      <p>{userData.followers}</p>
-      <p>{userData.following}</p>
-      <p>{userData.public_repos}</p>
+      <img src={userData.avatar_url} alt={userData.name} width={90} />
+      <p>
+        {userData.type} {userData.company}{' '}
+        <a href={userData.html_url} target="_blank" rel="noreferrer">
+          @{userData.login}
+        </a>
+      </p>
+      <p>{userData.location}</p>
+      <p>{userData.bio}</p>
+      <p>Seguidores: {userData.followers}</p>
+      <p>Seguindo: {userData.following}</p>
 
       <h2>Repositórios</h2>
       <p>{userData.name || userData.login}</p>
@@ -43,10 +46,7 @@ function UserProfileScreen() {
       <ul>
         {userData.repos?.map((repo) => (
           <li key={repo.id}>
-            <Link to={`/${userData.login}/${repo.name}`}>{repo.name}</Link>{' '}
-            <a href={repo.html_url} target="_blank" rel="noreferrer">
-              ver no GitHub
-            </a>
+            <Link to={`/${userData.login}/${repo.name}`}>{repo.name}</Link>
           </li>
         ))}
       </ul>
@@ -54,4 +54,4 @@ function UserProfileScreen() {
   );
 }
 
-export default UserProfileScreen;
+export default UserScreen;

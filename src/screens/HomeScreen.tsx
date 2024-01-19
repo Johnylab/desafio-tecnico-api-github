@@ -3,9 +3,8 @@ import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalContext';
 
-function HomeScreen() {
+function SearchForm({ onSubmit }: { onSubmit: (value: string) => void }) {
   const [username, setUsername] = useState('');
-  const { userData, loadUserData } = useContext(GlobalContext);
 
   function onSearchInput(e: ChangeEvent<HTMLInputElement>) {
     setUsername(e.target.value);
@@ -18,11 +17,11 @@ function HomeScreen() {
       return;
     }
 
-    loadUserData(username);
+    onSubmit(username);
   }
 
   return (
-    <div>
+    <>
       <h1>Buscar usuário do GitHub</h1>
 
       <form onSubmit={onSearchSubmit}>
@@ -34,19 +33,48 @@ function HomeScreen() {
         />
         <button type="submit">Buscar</button>
       </form>
+    </>
+  );
+}
+
+function SearchHistory() {
+  const searchHistory = Object.values(localStorage)
+    .map((value) => {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return null;
+      }
+    })
+    .filter(Boolean);
+
+  if (!searchHistory.length) {
+    return null;
+  }
+
+  return (
+    <>
+      <h2>Histórico de busca</h2>
+      {searchHistory.map((data) => (
+        <p>
+          <img src={data.avatar_url} alt={data.name} width={30} />
+          <Link to={`/${data.login}`}>{data.name || data.login}</Link>
+        </p>
+      ))}
+    </>
+  );
+}
+
+function HomeScreen() {
+  const { userData, loadUserData } = useContext(GlobalContext);
+
+  return (
+    <div>
+      <SearchForm onSubmit={loadUserData} />
 
       {userData.message && <p>{userData.message}</p>}
 
-      {userData.login && (
-        <>
-          <img src={userData.avatar_url} alt={userData.name} width={90} />
-          <p>
-            <Link to={`/${userData.login}`}>
-              {userData.name || userData.login}
-            </Link>
-          </p>
-        </>
-      )}
+      <SearchHistory />
     </div>
   );
 }
