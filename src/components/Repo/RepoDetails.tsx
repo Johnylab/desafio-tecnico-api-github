@@ -1,4 +1,4 @@
-import { Repository } from '../github/api';
+import { Repository } from '../../github/api';
 
 type RepoDetailsProps = {
   repo: Repository;

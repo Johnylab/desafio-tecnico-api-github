@@ -1,8 +1,8 @@
 import { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import type { RouteParams } from '../Routes.tsx';
-import UserProfile from '../components/UserProfile';
-import UserRepos from '../components/UserRepos.tsx';
+import UserProfile from '../components/User/UserProfile.tsx';
+import UserRepos from '../components/User/UserRepos.tsx';
 import { GlobalContext } from '../context/GlobalContext';
 
 function UserScreen() {

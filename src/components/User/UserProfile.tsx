@@ -1,4 +1,4 @@
-import { UserData } from '../github/api';
+import { UserData } from '../../github/api';
 
 type UserProfileProps = {
   data: UserData;

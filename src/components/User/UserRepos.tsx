@@ -1,9 +1,9 @@
 import type { ChangeEvent } from 'react';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Repository } from '../github/api';
-import { searchByKeys, sortByKey } from '../utils/array';
-import Pluralize from './Pluralize';
+import { Repository } from '../../github/api';
+import { searchByKeys, sortByKey } from '../../utils/array';
+import Pluralize from '../Pluralize';
 
 type UserReposProps = {
   items: Repository[];

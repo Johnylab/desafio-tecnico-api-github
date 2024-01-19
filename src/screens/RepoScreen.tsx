@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import RepoDetails from '../components/RepoDetails';
+import RepoDetails from '../components/Repo/RepoDetails';
 import { GlobalContext } from '../context/GlobalContext';
 
 function RepoScreen() {

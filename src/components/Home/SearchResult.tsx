@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { UserData } from '../github/api';
+import { UserData } from '../../github/api';
 
 type SearchResultProps = {
   data: UserData;
