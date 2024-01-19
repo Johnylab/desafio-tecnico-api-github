@@ -18,6 +18,7 @@ type Repository = {
     name: string;
     url: string;
   } | null;
+  owner: UserData;
 };
 
 type UserData = Partial<{
@@ -56,6 +57,7 @@ async function fetchUserData(username: string): Promise<UserData> {
     if (!reposResponse.ok) {
       return {
         ...userProfile,
+        repos: [],
         message: 'Repositórios não encontrados',
       };
     }
@@ -78,4 +80,4 @@ async function fetchUserData(username: string): Promise<UserData> {
 
 export { fetchUserData };
 
-export type { UserData };
+export type { UserData, Repository };

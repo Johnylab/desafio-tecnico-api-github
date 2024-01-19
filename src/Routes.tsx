@@ -4,6 +4,11 @@ import NotFoundScreen from './screens/NotFoundScreen';
 import RepoScreen from './screens/RepoScreen';
 import UserScreen from './screens/UserScreen';
 
+type RouteParams = {
+  username?: string;
+  reponame?: string;
+};
+
 const router = createBrowserRouter([
   { path: '/', Component: HomeScreen },
   { path: '/:username', Component: UserScreen },
@@ -16,3 +21,5 @@ function Routes() {
 }
 
 export default Routes;
+
+export type { RouteParams };
