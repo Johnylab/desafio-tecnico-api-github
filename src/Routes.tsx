@@ -1,4 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Layout from './Layout.tsx';
 import HomeScreen from './screens/HomeScreen';
 import NotFoundScreen from './screens/NotFoundScreen';
 import RepoScreen from './screens/RepoScreen';
@@ -10,10 +11,15 @@ type RouteParams = {
 };
 
 const router = createBrowserRouter([
-  { path: '/', Component: HomeScreen },
-  { path: '/:username', Component: UserScreen },
-  { path: '/:username/:reponame', Component: RepoScreen },
-  { path: '*', Component: NotFoundScreen },
+  {
+    element: <Layout />,
+    children: [
+      { path: '/', Component: HomeScreen },
+      { path: '/:username', Component: UserScreen },
+      { path: '/:username/:reponame', Component: RepoScreen },
+      { path: '*', Component: NotFoundScreen },
+    ],
+  },
 ]);
 
 function Routes() {
