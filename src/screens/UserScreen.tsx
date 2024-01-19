@@ -1,10 +1,55 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalContext';
+
+type RepositorySortOption = {
+  repoSortKey: 'stargazers_count' | 'watchers_count' | 'forks';
+  repoOrder: 'desc' | 'asc';
+};
+
+const reportSortOptions = [
+  { value: 'stargazers_count:desc', label: 'Mais estrelas' },
+  { value: 'stargazers_count:asc', label: 'Menos estrelas' },
+  { value: 'watchers_count:desc', label: 'Mais observadores' },
+  { value: 'watchers_count:asc', label: 'Menos observadores' },
+  { value: 'forks:desc', label: 'Mais forks' },
+  { value: 'forks:asc', label: 'Menos forks' },
+];
 
 function UserScreen() {
   const { username } = useParams<{ username: string }>();
   const { userData, loadUserData } = useContext(GlobalContext);
+  const [{ repoSortKey, repoOrder }, setRepoSort] =
+    useState<RepositorySortOption>({
+      repoSortKey: 'stargazers_count',
+      repoOrder: 'desc',
+    });
+  const repos = useMemo(() => {
+    if (!userData.repos) {
+      return [];
+    }
+
+    if (!(repoSortKey in userData.repos[0])) {
+      throw new Error('Invalid repoSortKey');
+    }
+
+    return userData.repos.sort((a, b) => {
+      if (repoOrder === 'desc') {
+        return b[repoSortKey] - a[repoSortKey];
+      }
+
+      return a[repoSortKey] - b[repoSortKey];
+    });
+  }, [repoOrder, repoSortKey, userData.repos]);
+
+  function handleRepoSort(event: React.ChangeEvent<HTMLSelectElement>) {
+    const [_key, _order] = event.target.value.split(':');
+
+    setRepoSort({
+      repoSortKey: _key,
+      repoOrder: _order,
+    } as RepositorySortOption);
+  }
 
   useEffect(() => {
     if (username) {
@@ -38,15 +83,25 @@ function UserScreen() {
       <h2>Repositórios</h2>
       <p>{userData.name || userData.login}</p>
 
-      <select>
-        <option value="asc">asc</option>
-        <option value="desc">desc</option>
+      <select onChange={handleRepoSort} value={`${repoSortKey}:${repoOrder}`}>
+        {reportSortOptions.map(({ value, label }) => (
+          <option key={value} value={value}>
+            {label}
+          </option>
+        ))}
       </select>
 
       <ul>
-        {userData.repos?.map((repo) => (
+        {repos.map((repo) => (
           <li key={repo.id}>
-            <Link to={`/${userData.login}/${repo.name}`}>{repo.name}</Link>
+            <p>
+              <Link to={`/${userData.login}/${repo.name}`}>{repo.name}</Link>
+            </p>
+            <p>
+              {repo.language} ☆ {repo.stargazers_count} 👁️ {repo.watchers_count}{' '}
+              ⑂ {repo.forks}
+            </p>
+            <p>{repo.description}</p>
           </li>
         ))}
       </ul>
