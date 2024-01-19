@@ -1,28 +1,32 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { GlobalContext } from '../context/GlobalContext';
+import { UserData } from '../github/api';
 
-function SearchResult() {
-  const { userData } = useContext(GlobalContext);
+type SearchResultProps = {
+  data: UserData;
+};
 
-  if (userData.message) {
-    return <p>{userData.message}</p>;
+function SearchResult({ data }: SearchResultProps) {
+  if (data.message) {
+    return <p>{data.message}</p>;
   }
 
-  if (!userData.login) {
+  if (!data.login) {
     return null;
   }
 
   return (
     <div>
-      <img src={userData.avatar_url} alt={userData.name} width={100} />
+      <img src={data.avatar_url} alt={data.name} width={100} />
       <p>
-        <Link to={`/${userData.login}`}>{userData.name || userData.login}</Link>
+        <Link to={`/${data.login}`}>{data.name || data.login}</Link>
       </p>
-      <p>{userData.bio}</p>
-      {userData.repos?.length && <p>{userData.repos?.length} repositórios</p>}
-      <p>{userData.followers} seguidores</p>
-      <p>Seguindo {userData.following}</p>
+      <p>
+        <a href="mailto:{userData.email}">{data.email}</a>
+      </p>
+      <p>{data.bio}</p>
+      {data.repos?.length && <p>{data.repos?.length} repositórios</p>}
+      <p>{data.followers} seguidores</p>
+      <p>Seguindo {data.following}</p>
     </div>
   );
 }

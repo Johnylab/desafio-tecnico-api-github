@@ -5,50 +5,50 @@ import { getStorage, setStorage } from '../utils/storage';
 
 type GlobalContextType = {
   userData: UserData;
-  loadUserData: (username: string) => Promise<void>;
+  loadUserData: (username: string) => Promise<UserData>;
 };
 
 const initialState = {
   userData: {} as UserData,
-  loadUserData: async () => {},
+  loadUserData: async () => ({}),
 };
 
 export const GlobalContext = createContext<GlobalContextType>(initialState);
 
 export const GlobalProvider = ({ children }: PropsWithChildren) => {
-  const [userProfile, setUserProfile] = useState({} as UserData);
+  const [userData, setUserData] = useState({} as UserData);
 
   const loadUserData = useCallback(async function (username: string) {
     if (!username) {
-      return;
+      return {
+        message: 'Digite o nome do usuário',
+      };
+    }
+
+    if (username.includes(' ')) {
+      return {
+        message: 'O nome de usuário não pode conter espaços',
+      };
     }
 
     const storageKey = `@gh-user:${username.toLowerCase()}`;
     const userPersistedData = getStorage(storageKey, null);
     if (userPersistedData) {
-      setUserProfile(userPersistedData);
-      return;
+      setUserData(userPersistedData);
+      return userPersistedData;
     }
 
-    if (username.includes(' ')) {
-      setUserProfile({
-        message: 'O nome de usuário não pode conter espaços',
-        last_updated_at: new Date(),
-      });
-      return;
-    }
-
-    setUserProfile({ message: 'Carregando...' });
     const response = await fetchUserData(username);
-    const userData = response.login
+    const data = response.login
       ? { ...response, last_updated_at: new Date() }
       : response;
-    setUserProfile(userData);
-    setStorage(storageKey, userData);
+    setUserData(data);
+    setStorage(storageKey, data);
+    return data;
   }, []);
 
   return (
-    <GlobalContext.Provider value={{ userData: userProfile, loadUserData }}>
+    <GlobalContext.Provider value={{ userData, loadUserData }}>
       {children}
     </GlobalContext.Provider>
   );

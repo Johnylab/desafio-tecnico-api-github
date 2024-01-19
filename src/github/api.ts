@@ -23,6 +23,7 @@ type Repository = {
 type UserData = Partial<{
   name: string;
   login: string;
+  email: string;
   avatar_url: string;
   html_url: string;
   followers: number;

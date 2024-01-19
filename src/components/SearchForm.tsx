@@ -1,8 +1,10 @@
-import { ChangeEvent, FormEvent, useContext, useState } from 'react';
-import { GlobalContext } from '../context/GlobalContext';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
-function SearchForm() {
-  const { loadUserData } = useContext(GlobalContext);
+type SearchFormProps = {
+  onSubmit: (username: string) => void;
+};
+
+function SearchForm({ onSubmit }: SearchFormProps) {
   const [username, setUsername] = useState('');
 
   function onSearchInput(e: ChangeEvent<HTMLInputElement>) {
@@ -11,12 +13,7 @@ function SearchForm() {
 
   function onSearchSubmit(e: FormEvent) {
     e.preventDefault();
-
-    if (!username) {
-      return;
-    }
-
-    loadUserData(username);
+    onSubmit(username);
   }
 
   return (
