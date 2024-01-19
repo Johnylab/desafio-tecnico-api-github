@@ -1,15 +1,23 @@
 type Repository = {
   id: number;
   name: string;
+  full_name: string;
+  homepage: string;
   html_url: string;
   forks: number;
   stargazers_count: number;
   watchers_count: number;
   language: string;
+  topics: string[];
   description: string;
   created_at: Date;
   updated_at: Date;
   pushed_at: Date;
+  open_issues_count: number;
+  license: {
+    name: string;
+    url: string;
+  } | null;
 };
 
 type UserData = Partial<{
