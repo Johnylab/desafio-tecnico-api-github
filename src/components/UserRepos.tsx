@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Repository } from '../github/api';
 import { searchByKeys, sortByKey } from '../utils/array';
+import Pluralize from './Pluralize';
 
 type UserReposProps = {
   items: Repository[];
@@ -69,6 +70,21 @@ function UserRepos({ items }: UserReposProps) {
           </option>
         ))}
       </select>
+
+      <Pluralize
+        count={filteredItems.length}
+        render={({ $, count }) =>
+          filter ? (
+            <p>
+              Exibindo {count} {$('item', 'itens')} de {items.length}
+            </p>
+          ) : (
+            <p>
+              Total: {count} {$('repositório')}
+            </p>
+          )
+        }
+      />
 
       <ul>
         {repos.map((repo) => (
