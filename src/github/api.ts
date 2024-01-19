@@ -2,6 +2,14 @@ type Repository = {
   id: number;
   name: string;
   html_url: string;
+  forks: number;
+  stargazers_count: number;
+  watchers_count: number;
+  language: string;
+  description: string;
+  created_at: Date;
+  updated_at: Date;
+  pushed_at: Date;
 };
 
 type UserData = Partial<{
@@ -12,6 +20,10 @@ type UserData = Partial<{
   followers: number;
   following: number;
   public_repos: number;
+  location: string;
+  bio: string;
+  type: string;
+  company: string;
   repos: Repository[];
   message: string;
   last_updated_at: Date;
