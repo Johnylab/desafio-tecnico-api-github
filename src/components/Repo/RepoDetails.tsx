@@ -22,16 +22,7 @@ function RepoDetails({ repo }: RepoDetailsProps) {
         </p>
       )}
       <p>{repo.description}</p>
-      <p>
-        Licença:{' '}
-        {repo.license ? (
-          <a href={repo.license.url} target="_blank" rel="noreferrer">
-            {repo.license.name}
-          </a>
-        ) : (
-          'Nenhuma'
-        )}
-      </p>
+      <p>Licença: {repo.license ? repo.license.name : 'Nenhuma'}</p>
       <p>Estrelas: {repo.stargazers_count}</p>
       <p>Forks: {repo.forks}</p>
       <p>Observadores: {repo.watchers_count}</p>
