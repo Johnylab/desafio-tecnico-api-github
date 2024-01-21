@@ -29,11 +29,11 @@ function HomeScreen() {
   }
 
   return (
-    <>
+    <div className="my-auto">
       <SearchForm onSubmit={onSearch} isLoading={isLoading} />
       <SearchResult data={searchResult} isLoading={isLoading} />
       <SearchHistory items={searchHistory} />
-    </>
+    </div>
   );
 }
 

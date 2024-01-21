@@ -27,28 +27,30 @@ function AppHeader() {
   }, [reponame, userData.repos]);
 
   return (
-    <Container as="header">
-      <Breadcrumb>
-        {username && (
-          <Breadcrumb.Item>
-            <Link to="/">Início</Link>
-          </Breadcrumb.Item>
-        )}
-
-        {username && !reponame && (
-          <Breadcrumb.Item active>{userLabel}</Breadcrumb.Item>
-        )}
-
-        {reponame && (
-          <>
+    <header className="bg-dark-subtle p-4">
+      <Container>
+        <Breadcrumb listProps={{ className: 'm-0' }}>
+          {username ? (
             <Breadcrumb.Item>
-              <Link to={`/${username}`}>{userLabel}</Link>
+              <Link to="/">Início</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item active>{repoLabel}</Breadcrumb.Item>
-          </>
-        )}
-      </Breadcrumb>
-    </Container>
+          ) : (
+            <Breadcrumb.Item active>Início</Breadcrumb.Item>
+          )}
+          {username && !reponame && (
+            <Breadcrumb.Item active>{userLabel}</Breadcrumb.Item>
+          )}
+          {reponame && (
+            <>
+              <Breadcrumb.Item>
+                <Link to={`/${username}`}>{userLabel}</Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item active>{repoLabel}</Breadcrumb.Item>
+            </>
+          )}
+        </Breadcrumb>
+      </Container>
+    </header>
   );
 }
 
