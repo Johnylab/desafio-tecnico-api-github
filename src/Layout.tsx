@@ -3,10 +3,10 @@ import AppHeader from './components/AppHeader';
 
 function Layout() {
   return (
-    <div>
+    <>
       <AppHeader />
       <Outlet />
-    </div>
+    </>
   );
 }
 
