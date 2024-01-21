@@ -1,5 +1,6 @@
-import { Card, Col, Container, Image, Row } from 'react-bootstrap';
+import { Card, Col, Container, Image, Row, Stack } from 'react-bootstrap';
 import {
+  BoxArrowUpRight,
   BuildingFill,
   GeoAltFill,
   HeartFill,
@@ -50,7 +51,10 @@ function UserProfile({ data }: UserProfileProps) {
                   </Col>
                   <Col>
                     <a href={data.html_url} target="_blank" rel="noreferrer">
-                      {data.login}
+                      <Stack direction="horizontal" gap={1}>
+                        <span>{data.login}</span>
+                        <BoxArrowUpRight />
+                      </Stack>
                     </a>
                   </Col>
                 </Row>

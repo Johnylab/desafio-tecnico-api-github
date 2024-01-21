@@ -2,6 +2,7 @@ import { useContext, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import RepoDetails from '../components/Repo/RepoDetails';
 import { GlobalContext } from '../context/GlobalContext';
+import { Container, Spinner } from 'react-bootstrap';
 
 function RepoScreen() {
   const { username, reponame } = useParams();
@@ -21,15 +22,29 @@ function RepoScreen() {
   }, [username, loadUserData]);
 
   if (userData.message) {
-    return <p>{userData.message}</p>;
+    return (
+      <Container>
+        <p>{userData.message}</p>
+      </Container>
+    );
   }
 
   if (!userData.login) {
-    return <p>Carregando...</p>;
+    return (
+      <Container>
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Carregando...</span>
+        </Spinner>
+      </Container>
+    );
   }
 
   if (!repo) {
-    return <p>Repositório não encontrado</p>;
+    return (
+      <Container>
+        <p>Repositório não encontrado</p>
+      </Container>
+    );
   }
 
   return <RepoDetails repo={repo} />;

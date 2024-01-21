@@ -1,10 +1,10 @@
 import { useContext, useEffect } from 'react';
+import { Container, Spinner } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import type { RouteParams } from '../Routes.tsx';
 import UserProfile from '../components/User/UserProfile.tsx';
 import UserRepos from '../components/User/UserRepos.tsx';
 import { GlobalContext } from '../context/GlobalContext';
-import { Container } from 'react-bootstrap';
 
 function UserScreen() {
   const { username } = useParams<RouteParams>();
@@ -26,7 +26,9 @@ function UserScreen() {
   if (!userData.login) {
     return (
       <Container>
-        <p>Carregando...</p>
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Carregando...</span>
+        </Spinner>
       </Container>
     );
   }

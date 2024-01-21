@@ -160,7 +160,19 @@ function UserRepos({ items }: UserReposProps) {
                         <Star />
                       </Col>
                       <Col>
-                        {repo.stargazers_count} <small>estrelas</small>
+                        <Pluralize
+                          count={repo.stargazers_count}
+                          render={({ count, $ }) => (
+                            <>
+                              {count} <small>{$('estrela')}</small>
+                            </>
+                          )}
+                          fallback={
+                            <small className="text-body-tertiary">
+                              Nenhuma estrela
+                            </small>
+                          }
+                        />
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -170,7 +182,20 @@ function UserRepos({ items }: UserReposProps) {
                         <Eye />
                       </Col>
                       <Col>
-                        {repo.watchers_count} <small>observadores</small>
+                        <Pluralize
+                          count={repo.watchers_count}
+                          render={({ count, $ }) => (
+                            <>
+                              {count}{' '}
+                              <small>{$('observador', 'observadores')}</small>
+                            </>
+                          )}
+                          fallback={
+                            <small className="text-body-tertiary">
+                              Nenhum observador
+                            </small>
+                          }
+                        />
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -180,7 +205,19 @@ function UserRepos({ items }: UserReposProps) {
                         <Diagram2 />
                       </Col>
                       <Col>
-                        {repo.forks} <small>forks</small>
+                        <Pluralize
+                          count={repo.forks}
+                          render={({ count, $ }) => (
+                            <>
+                              {count} <small>{$('fork')}</small>
+                            </>
+                          )}
+                          fallback={
+                            <small className="text-body-tertiary">
+                              Nenhum fork
+                            </small>
+                          }
+                        />
                       </Col>
                     </Row>
                   </ListGroup.Item>
