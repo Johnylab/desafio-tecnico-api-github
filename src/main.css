@@ -5,3 +5,11 @@ body {
 .container {
   max-width: 720px;
 }
+
+.row,
+.d-flex {
+  svg {
+    /* remove inline descender space to fix alignment */
+    display: block;
+  }
+}

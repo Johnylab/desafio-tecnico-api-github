@@ -4,6 +4,7 @@ import type { RouteParams } from '../Routes.tsx';
 import UserProfile from '../components/User/UserProfile.tsx';
 import UserRepos from '../components/User/UserRepos.tsx';
 import { GlobalContext } from '../context/GlobalContext';
+import { Container } from 'react-bootstrap';
 
 function UserScreen() {
   const { username } = useParams<RouteParams>();
@@ -15,11 +16,19 @@ function UserScreen() {
   }, [username, loadUserData]);
 
   if (userData.message) {
-    return <p>{userData.message}</p>;
+    return (
+      <Container>
+        <p>{userData.message}</p>
+      </Container>
+    );
   }
 
   if (!userData.login) {
-    return <p>Carregando...</p>;
+    return (
+      <Container>
+        <p>Carregando...</p>
+      </Container>
+    );
   }
 
   return (

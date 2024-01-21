@@ -1,4 +1,14 @@
+import { Card, Col, Container, Image, Row } from 'react-bootstrap';
+import {
+  BuildingFill,
+  GeoAltFill,
+  HeartFill,
+  PeopleFill,
+  PersonCircle,
+} from 'react-bootstrap-icons';
 import { UserData } from '../../github/api';
+import { userTypes } from '../../github/constants';
+import CountDisplay from '../CountDisplay';
 
 type UserProfileProps = {
   data: UserData;
@@ -6,23 +16,84 @@ type UserProfileProps = {
 
 function UserProfile({ data }: UserProfileProps) {
   return (
-    <div>
-      <h1>{data.name || data.login}</h1>
-      <img src={data.avatar_url} alt={data.name} width={200} />
-      <p>
-        {data.type} {data.company}{' '}
-        <a href={data.html_url} target="_blank" rel="noreferrer">
-          @{data.login}
-        </a>
-      </p>
-      <p>
-        <a href="mailto:{userData.email}">{data.email}</a>
-      </p>
-      <p>{data.location}</p>
-      <p>Seguidores: {data.followers}</p>
-      <p>Seguindo: {data.following}</p>
-      <p>{data.bio}</p>
-    </div>
+    <Container className="my-3">
+      <Card className="p-3">
+        <Row>
+          <Col className="flex-grow-0">
+            <Image rounded src={data.avatar_url} alt={data.name} width={200} />
+          </Col>
+
+          <Col>
+            <h1>{data.name || data.login}</h1>
+            <Row>
+              <Col>
+                {data.company && (
+                  <p>
+                    <small>{data.company}</small>
+                  </p>
+                )}
+                {data.email && (
+                  <p>
+                    <small>
+                      <a href="mailto:{userData.email}">{data.email}</a>
+                    </small>
+                  </p>
+                )}
+
+                <Row className="flex-nowrap align-items-center gx-2 mb-1">
+                  <Col className="flex-grow-0">
+                    {data.type === userTypes.ORGANIZATION ? (
+                      <BuildingFill />
+                    ) : (
+                      <PersonCircle />
+                    )}
+                  </Col>
+                  <Col>
+                    <a href={data.html_url} target="_blank" rel="noreferrer">
+                      {data.login}
+                    </a>
+                  </Col>
+                </Row>
+
+                {data.location && (
+                  <Row className="align-items-center gx-2 mb-1">
+                    <Col className="flex-grow-0">
+                      <GeoAltFill />
+                    </Col>
+                    <Col>{data.location}</Col>
+                  </Row>
+                )}
+                <CountDisplay
+                  className="gx-2 mb-1"
+                  icon={PeopleFill}
+                  count={data.followers}
+                  singular="seguidor"
+                  plural="seguidores"
+                  fallback={
+                    <small className="text-secondary">Nenhum seguidor</small>
+                  }
+                />
+                <CountDisplay
+                  className="gx-2 mb-1"
+                  icon={HeartFill}
+                  count={data.following}
+                  singular="seguido"
+                  fallback={
+                    <small className="text-secondary">Nenhum seguido</small>
+                  }
+                />
+              </Col>
+
+              <Col md={6}>
+                <p>
+                  <small>{data.bio}</small>
+                </p>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Card>
+    </Container>
   );
 }
 

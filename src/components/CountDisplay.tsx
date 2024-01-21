@@ -16,10 +16,12 @@ function CountDisplay({
   singular,
   plural,
   fallback = null,
-  ...props
+  ..._props
 }: CountDisplayProps) {
+  const { className = '', ...props } = _props;
+
   return (
-    <Row {...props}>
+    <Row className={`align-items-center ${className}`} {...props}>
       <Col className="flex-grow-0">
         <Icon />
       </Col>
