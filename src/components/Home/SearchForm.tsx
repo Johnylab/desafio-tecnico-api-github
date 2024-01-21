@@ -1,4 +1,12 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
+import {
+  Button,
+  Container,
+  Form,
+  FormControl,
+  InputGroup,
+} from 'react-bootstrap';
+import { Search } from 'react-bootstrap-icons';
 
 type SearchFormProps = {
   onSubmit: (username: string) => void;
@@ -17,19 +25,23 @@ function SearchForm({ onSubmit }: SearchFormProps) {
   }
 
   return (
-    <>
+    <Container className="my-3">
       <h1>Buscar usuário do GitHub</h1>
 
-      <form onSubmit={onSearchSubmit}>
-        <input
-          type="text"
-          placeholder="Digite o nome do usuário"
-          value={username}
-          onInput={onSearchInput}
-        />
-        <button type="submit">Buscar</button>
-      </form>
-    </>
+      <Form onSubmit={onSearchSubmit}>
+        <InputGroup>
+          <FormControl
+            type="text"
+            placeholder="Digite o nome do usuário"
+            value={username}
+            onInput={onSearchInput}
+          />
+          <Button variant="secondary" type="submit">
+            <Search aria-label="Pesquisar" />
+          </Button>
+        </InputGroup>
+      </Form>
+    </Container>
   );
 }
 

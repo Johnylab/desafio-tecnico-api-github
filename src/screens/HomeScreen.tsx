@@ -33,11 +33,11 @@ function HomeScreen() {
   }
 
   return (
-    <div>
+    <>
       <SearchForm onSubmit={onSearch} />
       <SearchResult data={searchResult} />
       <SearchHistory items={searchHistory} />
-    </div>
+    </>
   );
 }
 

@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { curriedPlural } from '../utils/string';
 
 type PluralizeRenderProps = {
@@ -6,11 +7,16 @@ type PluralizeRenderProps = {
 };
 
 type PluralizeProps = {
-  count: number;
-  render: ({ $, count }: PluralizeRenderProps) => JSX.Element;
+  count?: number;
+  fallback?: ReactNode;
+  render: ({ $, count }: PluralizeRenderProps) => ReactNode;
 };
 
-function Pluralize({ count, render }: PluralizeProps) {
+function Pluralize({ count, render, fallback }: PluralizeProps) {
+  if (!count) {
+    return fallback || null;
+  }
+
   return render({ $: curriedPlural(count), count });
 }
 
