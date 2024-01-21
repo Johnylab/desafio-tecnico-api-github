@@ -7,7 +7,7 @@ import { GlobalContext } from '../context/GlobalContext';
 
 function HomeScreen() {
   const [searchResult, setSearchResult] = useState<UserData>({});
-  const { loadUserData } = useContext(GlobalContext);
+  const { isLoading, loadUserData } = useContext(GlobalContext);
 
   const searchHistory: UserData[] = Object.values(localStorage)
     .map((value) => {
@@ -23,10 +23,6 @@ function HomeScreen() {
         new Date(b).getTime() - new Date(a).getTime()
     );
 
-  if (!searchHistory.length) {
-    return null;
-  }
-
   async function onSearch(username: string) {
     const _result = await loadUserData(username);
     setSearchResult(_result);
@@ -34,8 +30,8 @@ function HomeScreen() {
 
   return (
     <>
-      <SearchForm onSubmit={onSearch} />
-      <SearchResult data={searchResult} />
+      <SearchForm onSubmit={onSearch} isLoading={isLoading} />
+      <SearchResult data={searchResult} isLoading={isLoading} />
       <SearchHistory items={searchHistory} />
     </>
   );

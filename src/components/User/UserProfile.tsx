@@ -36,7 +36,7 @@ function UserProfile({ data }: UserProfileProps) {
                 {data.email && (
                   <p>
                     <small>
-                      <a href="mailto:{userData.email}">{data.email}</a>
+                      <a href={`mailto:${data.email}`}>{data.email}</a>
                     </small>
                   </p>
                 )}

@@ -1,4 +1,4 @@
-import { Card, Col, Container, Image, Row } from 'react-bootstrap';
+import { Card, Col, Container, Image, Row, Spinner } from 'react-bootstrap';
 import { Git, HeartFill, PeopleFill } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import { UserData } from '../../github/api';
@@ -6,11 +6,26 @@ import CountDisplay from '../CountDisplay';
 
 type SearchResultProps = {
   data: UserData;
+  isLoading?: boolean;
 };
 
-function SearchResult({ data }: SearchResultProps) {
+function SearchResult({ data, isLoading }: SearchResultProps) {
+  if (isLoading) {
+    return (
+      <Container>
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Carregando...</span>
+        </Spinner>
+      </Container>
+    );
+  }
+
   if (data.message) {
-    return <p>{data.message}</p>;
+    return (
+      <Container>
+        <p>{data.message}</p>
+      </Container>
+    );
   }
 
   if (!data.login) {

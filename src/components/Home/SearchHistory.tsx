@@ -9,6 +9,10 @@ type SearchHistoryProps = {
 };
 
 function SearchHistory({ items }: SearchHistoryProps) {
+  if (!items.length) {
+    return null;
+  }
+
   return (
     <Container className="my-3">
       <h2>Buscas recentes</h2>

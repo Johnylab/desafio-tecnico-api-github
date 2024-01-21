@@ -10,9 +10,10 @@ import { Search } from 'react-bootstrap-icons';
 
 type SearchFormProps = {
   onSubmit: (username: string) => void;
+  isLoading?: boolean;
 };
 
-function SearchForm({ onSubmit }: SearchFormProps) {
+function SearchForm({ onSubmit, isLoading = false }: SearchFormProps) {
   const [username, setUsername] = useState('');
 
   function onSearchInput(e: ChangeEvent<HTMLInputElement>) {
@@ -36,7 +37,7 @@ function SearchForm({ onSubmit }: SearchFormProps) {
             value={username}
             onInput={onSearchInput}
           />
-          <Button variant="secondary" type="submit">
+          <Button variant="secondary" type="submit" disabled={isLoading}>
             <Search aria-label="Pesquisar" />
           </Button>
         </InputGroup>

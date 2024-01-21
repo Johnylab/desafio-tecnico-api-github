@@ -5,26 +5,26 @@ import { RouteParams } from '../Routes';
 import { GlobalContext } from '../context/GlobalContext';
 
 function AppHeader() {
-  const { username: _username, reponame: _reponame } = useParams<RouteParams>();
+  const { username, reponame } = useParams<RouteParams>();
   const { userData } = useContext(GlobalContext);
 
-  const username = useMemo(() => {
+  const userLabel = useMemo(() => {
     if (userData.login) {
       return userData.name || userData.login;
     }
 
-    return _username;
-  }, [_username, userData.name, userData.login]);
+    return username;
+  }, [username, userData.name, userData.login]);
 
-  const reponame = useMemo(() => {
-    const _repo = userData.repos?.find((repo) => repo.name === _reponame);
+  const repoLabel = useMemo(() => {
+    const _repo = userData.repos?.find((repo) => repo.name === reponame);
 
     if (_repo) {
       return _repo.name;
     }
 
-    return _reponame;
-  }, [_reponame, userData.repos]);
+    return reponame;
+  }, [reponame, userData.repos]);
 
   return (
     <Container as="header">
@@ -35,15 +35,18 @@ function AppHeader() {
           </Breadcrumb.Item>
         )}
 
-        {reponame ? (
-          <Breadcrumb.Item>
-            <Link to={`/${username}`}>{username}</Link>
-          </Breadcrumb.Item>
-        ) : (
-          <Breadcrumb.Item active>{username}</Breadcrumb.Item>
+        {username && !reponame && (
+          <Breadcrumb.Item active>{userLabel}</Breadcrumb.Item>
         )}
 
-        {reponame && <Breadcrumb.Item active>{reponame}</Breadcrumb.Item>}
+        {reponame && (
+          <>
+            <Breadcrumb.Item>
+              <Link to={`/${username}`}>{userLabel}</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item active>{repoLabel}</Breadcrumb.Item>
+          </>
+        )}
       </Breadcrumb>
     </Container>
   );

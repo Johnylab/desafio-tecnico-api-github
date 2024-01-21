@@ -5,11 +5,13 @@ import { getStorage, setStorage } from '../utils/storage';
 
 type GlobalContextType = {
   userData: UserData;
+  isLoading: boolean;
   loadUserData: (username: string) => Promise<UserData>;
 };
 
 const initialState = {
   userData: {} as UserData,
+  isLoading: false,
   loadUserData: async () => ({}),
 };
 
@@ -17,6 +19,7 @@ export const GlobalContext = createContext<GlobalContextType>(initialState);
 
 export const GlobalProvider = ({ children }: PropsWithChildren) => {
   const [userData, setUserData] = useState({} as UserData);
+  const [isLoading, setIsLoading] = useState(false);
 
   const loadUserData = useCallback(async function (username: string) {
     if (!username) {
@@ -38,17 +41,19 @@ export const GlobalProvider = ({ children }: PropsWithChildren) => {
       return userPersistedData;
     }
 
+    setIsLoading(true);
     const response = await fetchUserData(username);
     const data = response.login
       ? { ...response, last_updated_at: new Date() }
       : response;
     setUserData(data);
+    setIsLoading(false);
     setStorage(storageKey, data);
     return data;
   }, []);
 
   return (
-    <GlobalContext.Provider value={{ userData, loadUserData }}>
+    <GlobalContext.Provider value={{ userData, isLoading, loadUserData }}>
       {children}
     </GlobalContext.Provider>
   );
