@@ -5,7 +5,7 @@ function NotFoundScreen() {
   const searchHistory = userStorage.getAllItems();
 
   return (
-    <Container className="py-5 mb-auto">
+    <Container className="py-3 mb-auto">
       <h1>404</h1>
 
       <p>Página não encontrada</p>

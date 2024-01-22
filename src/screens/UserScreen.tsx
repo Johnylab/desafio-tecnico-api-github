@@ -6,6 +6,7 @@ import UserProfile from '../components/User/UserProfile.tsx';
 import UserProfilePlaceholder from '../components/User/UserProfilePlaceholder.tsx';
 import UserRepos from '../components/User/UserRepos.tsx';
 import { GlobalContext } from '../context/GlobalContext';
+import { userStorage } from '../github/localStorage.ts';
 
 function UserScreen() {
   const { username } = useParams<RouteParams>();
@@ -17,10 +18,26 @@ function UserScreen() {
   }, [username, loadUserData]);
 
   if (userData.message) {
+    const searchHistory = userStorage.getAllItems();
+
     return (
       <Container className="py-3 mb-auto">
         <h1>Ops!</h1>
         <p>{userData.message}</p>
+
+        {searchHistory.length > 0 && (
+          <>
+            <p>Últimas buscas:</p>
+
+            <ul>
+              {searchHistory.map((item) => (
+                <li key={item.login}>
+                  <a href={`/${item.login}`}>{item.name || item.login}</a>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
       </Container>
     );
   }
