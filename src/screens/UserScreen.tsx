@@ -18,7 +18,8 @@ function UserScreen() {
 
   if (userData.message) {
     return (
-      <Container>
+      <Container className="py-3 mb-auto">
+        <h1>Ops!</h1>
         <p>{userData.message}</p>
       </Container>
     );
