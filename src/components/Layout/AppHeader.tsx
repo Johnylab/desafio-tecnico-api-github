@@ -28,7 +28,7 @@ function AppHeader() {
   }, [reponame, userData.repos]);
 
   return (
-    <header className="p-4 app-header">
+    <header className="py-4 app-header">
       <Container>
         <Breadcrumb listProps={{ className: 'm-0 d-flex align-items-center' }}>
           <Breadcrumb.Item active>

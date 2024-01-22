@@ -1,6 +1,6 @@
 function AppFooter() {
   return (
-    <footer className="text-center p-4 app-footer">
+    <footer className="text-center py-4 app-footer">
       &copy; 2024 por{' '}
       <a href="https://johnylab.com.br" target="_blank">
         JohnyLab
