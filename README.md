@@ -8,6 +8,8 @@ Este é um projeto client-side construído em React, utilizando react-router, Ty
 
 Permite buscar por um usuário do GitHub.
 
+![Página inicial no primeiro acesso: somente cabeçalho, título, campo de busca e rodapé.](./screenshots/octobusca_home_.png)
+
 ### Tela do Usuário (UserScreen)
 
 Exibe os detalhes do usuário buscado, incluindo o número de seguidores, número de seguidos, imagem do avatar, e-mail, biografia, etc.
