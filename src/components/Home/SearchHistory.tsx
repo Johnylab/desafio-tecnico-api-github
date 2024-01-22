@@ -18,7 +18,7 @@ import {
 } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import type { UserData } from '../../github/types';
-import CountDisplay from '../CountDisplay';
+import CountDisplay from '../utils/CountDisplay';
 
 type SearchHistoryProps = {
   items: UserData[];

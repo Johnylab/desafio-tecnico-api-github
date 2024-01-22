@@ -1,9 +1,9 @@
 import { useContext, useMemo } from 'react';
 import { Breadcrumb, Container, Image } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import { RouteParams } from '../Routes';
-import logo from '../assets/img/logo.png';
-import { GlobalContext } from '../context/GlobalContext';
+import { RouteParams } from '../../Routes';
+import logo from '../../assets/img/logo.png';
+import { GlobalContext } from '../../context/GlobalContext';
 
 function AppHeader() {
   const { username, reponame } = useParams<RouteParams>();

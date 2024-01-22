@@ -9,7 +9,7 @@ import {
 } from 'react-bootstrap-icons';
 import { userTypes } from '../../github/constants';
 import type { UserData } from '../../github/types';
-import CountDisplay from '../CountDisplay';
+import CountDisplay from '../utils/CountDisplay';
 
 type UserProfileProps = {
   data: UserData;

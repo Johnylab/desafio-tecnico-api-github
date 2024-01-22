@@ -2,7 +2,7 @@ import { Badge, Card, Col, ListGroup, Row } from 'react-bootstrap';
 import { Diagram2, Eye, Star } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import type { Repository } from '../../github/types';
-import Pluralize from '../Pluralize';
+import Pluralize from '../utils/Pluralize';
 
 type UserReposItemProps = {
   repo: Repository;

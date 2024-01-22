@@ -2,7 +2,7 @@ import { Card, Col, Image, Row } from 'react-bootstrap';
 import { Git, HeartFill, PeopleFill } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import { UserData } from '../../github/types';
-import CountDisplay from '../CountDisplay';
+import CountDisplay from '../utils/CountDisplay';
 
 type SearchResultCardProps = {
   data: UserData;

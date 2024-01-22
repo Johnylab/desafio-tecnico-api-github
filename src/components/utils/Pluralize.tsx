@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { curriedPlural } from '../utils/string';
+import { curriedPlural } from '../../utils/string';
 
 type PluralizeRenderProps = {
   $: (word: string, plural?: string) => string;

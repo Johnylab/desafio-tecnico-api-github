@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { FormText } from 'react-bootstrap';
 import type { Repository } from '../../github/types';
 import { searchByKeys, sortByKey } from '../../utils/array';
-import Pluralize from '../Pluralize';
+import Pluralize from '../utils/Pluralize';
 import type { SortOption } from './UserReposControls';
 import UserReposControls from './UserReposControls';
 import UserReposItem from './UserReposItem';

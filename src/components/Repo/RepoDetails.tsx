@@ -8,7 +8,7 @@ import {
   Star,
 } from 'react-bootstrap-icons';
 import type { Repository } from '../../github/types';
-import CountDisplay from '../CountDisplay';
+import CountDisplay from '../utils/CountDisplay';
 
 type RepoDetailsProps = {
   repo: Repository;

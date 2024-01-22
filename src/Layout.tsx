@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
-import AppContainer from './components/AppContainer';
-import AppFooter from './components/AppFooter';
-import AppHeader from './components/AppHeader';
+import AppContainer from './components/Layout/AppContainer';
+import AppFooter from './components/Layout/AppFooter';
+import AppHeader from './components/Layout/AppHeader';
 
 function Layout() {
   return (
