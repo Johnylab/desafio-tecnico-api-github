@@ -1,14 +1,13 @@
+import { endpoints, notFoundMessages } from './constants';
 import { UserData } from './types';
 
 async function fetchUserData(username: string): Promise<UserData> {
   try {
-    const userResponse = await fetch(
-      `https://api.github.com/users/${username}`
-    );
+    const userResponse = await fetch(`${endpoints.USERS}/${username}`);
 
     if (!userResponse.ok) {
       return {
-        message: 'Usuário não encontrado',
+        message: notFoundMessages.USER,
       };
     }
 
@@ -19,7 +18,7 @@ async function fetchUserData(username: string): Promise<UserData> {
       return {
         ...userProfile,
         repos: [],
-        message: 'Repositórios não encontrados',
+        message: notFoundMessages.REPO,
       };
     }
 
