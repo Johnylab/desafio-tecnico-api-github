@@ -28,11 +28,19 @@ function HomeScreen() {
     setSearchResult(_result);
   }
 
+  async function refreshUser(user: UserData) {
+    if (!user.login) {
+      return;
+    }
+    const _result = await loadUserData(user.login, true);
+    setSearchResult(_result);
+  }
+
   return (
     <div className="my-auto">
       <SearchForm onSubmit={onSearch} isLoading={isLoading} />
       <SearchResult data={searchResult} isLoading={isLoading} />
-      <SearchHistory items={searchHistory} />
+      <SearchHistory items={searchHistory} refreshUser={refreshUser} />
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { getStorage, setStorage } from '../utils/storage';
 type GlobalContextType = {
   userData: UserData;
   isLoading: boolean;
-  loadUserData: (username: string) => Promise<UserData>;
+  loadUserData: (username: string, ignoreCache?: boolean) => Promise<UserData>;
 };
 
 const initialState = {
@@ -21,7 +21,10 @@ export const GlobalProvider = ({ children }: PropsWithChildren) => {
   const [userData, setUserData] = useState({} as UserData);
   const [isLoading, setIsLoading] = useState(false);
 
-  const loadUserData = useCallback(async function (username: string) {
+  const loadUserData = useCallback(async function (
+    username: string,
+    ignoreCache = false
+  ) {
     if (!username) {
       return {
         message: 'Digite o nome do usuário',
@@ -36,9 +39,12 @@ export const GlobalProvider = ({ children }: PropsWithChildren) => {
 
     const storageKey = `@gh-user:${username.toLowerCase()}`;
     const userPersistedData = getStorage(storageKey, null);
-    if (userPersistedData) {
-      setUserData(userPersistedData);
-      return userPersistedData;
+
+    if (!ignoreCache) {
+      if (userPersistedData) {
+        setUserData(userPersistedData);
+        return userPersistedData;
+      }
     }
 
     setIsLoading(true);
@@ -50,7 +56,8 @@ export const GlobalProvider = ({ children }: PropsWithChildren) => {
     setIsLoading(false);
     setStorage(storageKey, data);
     return data;
-  }, []);
+  },
+  []);
 
   return (
     <GlobalContext.Provider value={{ userData, isLoading, loadUserData }}>
