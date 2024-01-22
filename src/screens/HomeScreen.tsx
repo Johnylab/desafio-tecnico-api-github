@@ -3,8 +3,8 @@ import SearchForm from '../components/Home/SearchForm';
 import SearchHistory from '../components/Home/SearchHistory';
 import SearchResult from '../components/Home/SearchResult';
 import { GlobalContext } from '../context/GlobalContext';
-import type { UserData } from '../github/types';
 import { userStorage } from '../github/localStorage';
+import type { UserData } from '../github/types';
 
 function HomeScreen() {
   const [searchResult, setSearchResult] = useState<UserData>({});
@@ -29,11 +29,20 @@ function HomeScreen() {
     setSearchResult(_result);
   }
 
+  function clearHistory() {
+    userStorage.clear();
+    setSearchResult({});
+  }
+
   return (
     <div className="my-auto">
       <SearchForm onSubmit={onSearch} isLoading={isLoading} />
       <SearchResult data={searchResult} isLoading={isLoading} />
-      <SearchHistory items={searchHistory} refreshUser={refreshUser} />
+      <SearchHistory
+        items={searchHistory}
+        refreshUser={refreshUser}
+        clearHistory={clearHistory}
+      />
     </div>
   );
 }

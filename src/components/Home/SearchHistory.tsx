@@ -9,7 +9,13 @@ import {
   Spinner,
   Stack,
 } from 'react-bootstrap';
-import { ArrowRepeat, Git, HeartFill, PeopleFill } from 'react-bootstrap-icons';
+import {
+  ArrowRepeat,
+  Git,
+  HeartFill,
+  PeopleFill,
+  XSquare,
+} from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import type { UserData } from '../../github/types';
 import CountDisplay from '../CountDisplay';
@@ -17,9 +23,14 @@ import CountDisplay from '../CountDisplay';
 type SearchHistoryProps = {
   items: UserData[];
   refreshUser: (user: UserData) => Promise<void>;
+  clearHistory: () => void;
 };
 
-function SearchHistory({ items, refreshUser }: SearchHistoryProps) {
+function SearchHistory({
+  items,
+  refreshUser,
+  clearHistory,
+}: SearchHistoryProps) {
   const [loadingSates, setLoadingSates] = useState(
     items.reduce((acc, item) => {
       acc[item.login as string] = false;
@@ -52,11 +63,26 @@ function SearchHistory({ items, refreshUser }: SearchHistoryProps) {
     setIsLoading(user, false);
   }
 
+  function handleClearClick() {
+    clearHistory();
+  }
+
   return (
     <Container className="py-4 mb-auto">
-      <h2 className="fs-5">
-        {items.length === 1 ? 'Busca recente' : 'Buscas recentes'}
-      </h2>
+      <Stack direction="horizontal" className="mb-2">
+        <h2 className="fs-5 m-0">
+          {items.length === 1 ? 'Busca recente' : 'Buscas recentes'}
+        </h2>
+
+        <div className="ms-auto">
+          <Button variant="light" onClick={handleClearClick}>
+            <Stack direction="horizontal">
+              <XSquare />
+              <span className="ms-2">Limpar Histórico</span>
+            </Stack>
+          </Button>
+        </div>
+      </Stack>
 
       <ListGroup>
         {items.map((data) => (
