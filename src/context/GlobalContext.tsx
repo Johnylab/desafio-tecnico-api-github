@@ -2,7 +2,7 @@ import type { PropsWithChildren } from 'react';
 import { createContext, useCallback, useState } from 'react';
 import { fetchUserData } from '../github/api';
 import type { UserData } from '../github/types';
-import { getStorage, setStorage } from '../utils/storage';
+import { userStorage } from '../github/localStorage';
 
 type GlobalContextType = {
   userData: UserData;
@@ -27,19 +27,21 @@ export const GlobalProvider = ({ children }: PropsWithChildren) => {
     ignoreCache = false
   ) {
     if (!username) {
+      setUserData(initialState.userData);
       return {
         message: 'Digite o nome do usuário',
       };
     }
 
     if (username.includes(' ')) {
+      setUserData(initialState.userData);
       return {
         message: 'O nome de usuário não pode conter espaços',
       };
     }
 
-    const storageKey = `@gh-user:${username.toLowerCase()}`;
-    const userPersistedData = getStorage(storageKey, null);
+    const storageKey = username.toLowerCase();
+    const userPersistedData = userStorage.get(storageKey);
 
     if (!ignoreCache) {
       if (userPersistedData) {
@@ -55,7 +57,7 @@ export const GlobalProvider = ({ children }: PropsWithChildren) => {
       : response;
     setUserData(data);
     setIsLoading(false);
-    setStorage(storageKey, data);
+    userStorage.set(storageKey, data);
     return data;
   },
   []);

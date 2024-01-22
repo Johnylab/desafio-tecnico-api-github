@@ -4,24 +4,17 @@ import SearchHistory from '../components/Home/SearchHistory';
 import SearchResult from '../components/Home/SearchResult';
 import { GlobalContext } from '../context/GlobalContext';
 import type { UserData } from '../github/types';
+import { userStorage } from '../github/localStorage';
 
 function HomeScreen() {
   const [searchResult, setSearchResult] = useState<UserData>({});
   const { isLoading, loadUserData } = useContext(GlobalContext);
 
-  const searchHistory: UserData[] = Object.values(localStorage)
-    .map((value) => {
-      try {
-        return JSON.parse(value);
-      } catch {
-        return null;
-      }
-    })
-    .filter((user) => user?.login)
-    .sort(
-      ({ last_updated_at: a }, { last_updated_at: b }) =>
-        new Date(b).getTime() - new Date(a).getTime()
-    );
+  const searchHistory = userStorage.getAllItems().sort((a, b) => {
+    const dateA = new Date(a.last_updated_at || 0);
+    const dateB = new Date(b.last_updated_at || 0);
+    return dateB.getTime() - dateA.getTime();
+  });
 
   async function onSearch(username: string) {
     const _result = await loadUserData(username);
