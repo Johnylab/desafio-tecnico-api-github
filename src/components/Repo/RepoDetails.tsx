@@ -1,4 +1,4 @@
-import { Badge, Col, Container, Row, Stack } from 'react-bootstrap';
+import { Badge, Col, ListGroup, Row, Stack } from 'react-bootstrap';
 import {
   BoxArrowUpRight,
   Diagram2,
@@ -16,7 +16,7 @@ type RepoDetailsProps = {
 
 function RepoDetails({ repo }: RepoDetailsProps) {
   return (
-    <Container>
+    <>
       <h1>{repo.name}</h1>
       <p>
         <a href={repo.html_url} target="_blank" rel="noreferrer">
@@ -27,49 +27,51 @@ function RepoDetails({ repo }: RepoDetailsProps) {
         </a>
       </p>
 
+      <p className="text-body-secondary">{repo.description}</p>
+
       <Row>
         <Col>
-          <CountDisplay
-            className="gx-2 mb-3"
-            icon={Star}
-            count={repo.stargazers_count}
-            singular="estrela"
-            fallback="Nenhuma estrela"
-          />
-          <CountDisplay
-            className="gx-2 mb-3"
-            icon={Eye}
-            count={repo.watchers_count}
-            singular="observador"
-            plural="observadores"
-            fallback="Nenhum observador"
-          />
-          <CountDisplay
-            className="gx-2 mb-3"
-            icon={Diagram2}
-            count={repo.forks}
-            singular="fork"
-            fallback="Nenhum fork"
-          />
-          <CountDisplay
-            className="gx-2 mb-3"
-            icon={ExclamationSquare}
-            count={repo.open_issues_count}
-            singular="issue"
-            fallback="Nenhuma issue"
-          />
+          <ListGroup variant="flush">
+            <ListGroup.Item>
+              <CountDisplay
+                className="gx-2"
+                icon={Star}
+                count={repo.stargazers_count}
+                singular="estrela"
+                fallback="Nenhuma estrela"
+              />
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <CountDisplay
+                className="gx-2"
+                icon={Eye}
+                count={repo.watchers_count}
+                singular="observador"
+                plural="observadores"
+                fallback="Nenhum observador"
+              />
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <CountDisplay
+                className="gx-2"
+                icon={Diagram2}
+                count={repo.forks}
+                singular="fork"
+                fallback="Nenhum fork"
+              />
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <CountDisplay
+                className="gx-2"
+                icon={ExclamationSquare}
+                count={repo.open_issues_count}
+                singular="issue"
+                fallback="Nenhuma issue"
+              />
+            </ListGroup.Item>
+          </ListGroup>
         </Col>
         <Col>
-          <p>{repo.description}</p>
-
-          <div className="my-4">
-            {repo.topics.map((topic) => (
-              <Badge key={topic} pill className="me-1">
-                {topic}
-              </Badge>
-            ))}
-          </div>
-
           <p>Licença: {repo.license ? repo.license.name : 'Nenhuma'}</p>
           <p>Linguagem: {repo.language || 'Desconhecida'}</p>
 
@@ -83,9 +85,17 @@ function RepoDetails({ repo }: RepoDetailsProps) {
               </a>
             </p>
           )}
+
+          <div className="my-4">
+            {repo.topics.map((topic) => (
+              <Badge key={topic} pill className="me-1">
+                {topic}
+              </Badge>
+            ))}
+          </div>
         </Col>
       </Row>
-    </Container>
+    </>
   );
 }
 

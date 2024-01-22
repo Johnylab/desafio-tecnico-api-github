@@ -1,7 +1,8 @@
 import { useContext, useMemo } from 'react';
-import { Breadcrumb, Container } from 'react-bootstrap';
-import { Link, useParams } from 'react-router-dom';
+import { Breadcrumb, Container, Image } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 import { RouteParams } from '../Routes';
+import logo from '../assets/img/logo.png';
 import { GlobalContext } from '../context/GlobalContext';
 
 function AppHeader() {
@@ -27,13 +28,17 @@ function AppHeader() {
   }, [reponame, userData.repos]);
 
   return (
-    <header className="bg-dark-subtle p-4">
+    <header className="p-4 app-header">
       <Container>
-        <Breadcrumb listProps={{ className: 'm-0' }}>
+        <Breadcrumb listProps={{ className: 'm-0 d-flex align-items-center' }}>
+          <Breadcrumb.Item active>
+            <Image src={logo} alt="Buscador de repositórios" height={28} />
+          </Breadcrumb.Item>
+
           {username ? (
-            <Breadcrumb.Item href="/">Início</Breadcrumb.Item>
+            <Breadcrumb.Item href="/">INÍCIO</Breadcrumb.Item>
           ) : (
-            <Breadcrumb.Item active>Início</Breadcrumb.Item>
+            <Breadcrumb.Item active>OCTOBUSCA</Breadcrumb.Item>
           )}
 
           {username && !reponame && (

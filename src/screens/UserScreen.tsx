@@ -1,8 +1,9 @@
 import { useContext, useEffect } from 'react';
-import { Container, Spinner } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import type { RouteParams } from '../Routes.tsx';
 import UserProfile from '../components/User/UserProfile.tsx';
+import UserProfilePlaceholder from '../components/User/UserProfilePlaceholder.tsx';
 import UserRepos from '../components/User/UserRepos.tsx';
 import { GlobalContext } from '../context/GlobalContext';
 
@@ -25,18 +26,20 @@ function UserScreen() {
 
   if (!userData.login) {
     return (
-      <Container>
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Carregando...</span>
-        </Spinner>
+      <Container className="py-3 mb-auto">
+        <UserProfilePlaceholder />
       </Container>
     );
   }
 
   return (
     <>
-      <UserProfile data={userData} />
-      <UserRepos items={userData.repos || []} />
+      <Container className="py-3">
+        <UserProfile data={userData} />
+      </Container>
+      <Container className="py-3 mb-auto">
+        <UserRepos items={userData.repos || []} />
+      </Container>
     </>
   );
 }

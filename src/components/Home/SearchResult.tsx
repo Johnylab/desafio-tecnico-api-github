@@ -10,7 +10,11 @@ type SearchResultProps = {
 
 function SearchResult({ data, isLoading }: SearchResultProps) {
   if (isLoading) {
-    return <SearchResultPlaceholder />;
+    return (
+      <Container className="my-3">
+        <SearchResultPlaceholder />
+      </Container>
+    );
   }
 
   if (data.message) {
@@ -25,7 +29,11 @@ function SearchResult({ data, isLoading }: SearchResultProps) {
     return null;
   }
 
-  return <SearchResultCard data={data} />;
+  return (
+    <Container className="my-3">
+      <SearchResultCard data={data} />
+    </Container>
+  );
 }
 
 export default SearchResult;

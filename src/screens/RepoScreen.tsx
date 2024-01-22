@@ -1,8 +1,9 @@
 import { useContext, useEffect, useMemo } from 'react';
+import { Container } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import RepoDetails from '../components/Repo/RepoDetails';
+import RepoDetailsPlaceholder from '../components/Repo/RepoDetailsPlaceholder';
 import { GlobalContext } from '../context/GlobalContext';
-import { Container, Spinner } from 'react-bootstrap';
 
 function RepoScreen() {
   const { username, reponame } = useParams();
@@ -23,7 +24,7 @@ function RepoScreen() {
 
   if (userData.message) {
     return (
-      <Container>
+      <Container className="py-3 mb-auto">
         <p>{userData.message}</p>
       </Container>
     );
@@ -31,23 +32,35 @@ function RepoScreen() {
 
   if (!userData.login) {
     return (
-      <Container>
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Carregando...</span>
-        </Spinner>
+      <Container className="py-3 mb-auto">
+        <RepoDetailsPlaceholder />
       </Container>
     );
   }
 
   if (!repo) {
     return (
-      <Container>
-        <p>Repositório não encontrado</p>
+      <Container className="py-3 mb-auto">
+        <h1>Ops!</h1>
+
+        <p>Repositório não encontrado. Tente uma das sugestões a seguir:</p>
+
+        <ul>
+          {userData.repos?.map((repo) => (
+            <li key={repo.id}>
+              <a href={`/${userData.login}/${repo.name}`}>{repo.name}</a>
+            </li>
+          ))}
+        </ul>
       </Container>
     );
   }
 
-  return <RepoDetails repo={repo} />;
+  return (
+    <Container className="py-3 mb-auto">
+      <RepoDetails repo={repo} />
+    </Container>
+  );
 }
 
 export default RepoScreen;
