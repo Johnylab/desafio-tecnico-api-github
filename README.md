@@ -1,6 +1,6 @@
 # OctoBusca
 
-Este é um projeto client-side construído em React, utilizando react-router, Typescript e Bootstrap para criar uma aplicação que consulta a API do GitHub para mostrar os repositórios mais populares de um determinado usuário.
+Este é um projeto client-side construído em [React](https://react.dev/), utilizando [react-router](https://reactrouter.com/), [Typescript](https://www.typescriptlang.org/) e [Bootstrap](https://getbootstrap.com/) para criar uma aplicação que consulta a [API do GitHub](https://docs.github.com/pt/rest?apiVersion=2022-11-28) para mostrar os repositórios mais populares de um determinado usuário. Embora eu seja expert em CSS, o aplicativo foi personalizado com o mínimo de estilos possível, priorizando o uso de classes utilitárias, de acordo com recomendações na [documentação do Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/).
 
 O projeto está hospedado no Netlify e pode ser acessado aqui: [OCTOBUSCA: Buscar Usuário do GitHub](https://magnificent-sable-3de464.netlify.app/).
 
@@ -52,8 +52,6 @@ A pasta `/src/screens/` contém as páginas renderizadas pelo `RouterProvider` d
 
 A pasta `/src/components/` contém uma pasta para cada página (sem o sufixo 'Screen'), contendo os componentes de interface de usuário de cada uma. Diferente dos componentes em `screens`, os componentes de IU não acessam a API `Context` diretamente e possuem o mínimo de lógica possível. Todos os dados são recebidos através de `props`. Além disso, `components` também contém os componentes do layout (container principal, cabeçalho e rodapé) e outros componentes de interface. Utilitários que não renderizam componentes ficam na pasta `/src/utils/` classificados em arquivos por categoria (tipo de dado ou API específica que manipulam).
 
-A pasta `/src/github/` contém as contantes, tipos e utilitários de acesso à API do GitHub e ao armazenamento local (`localStorage`). As pastas `/src/assets/` e `/src/context/` contém arquivos estáticos e as definições de uso da API `Context`, respectivamente, conforme as convenções da comunidade.
-
 Exemplo:
 
 ```tsx
@@ -98,6 +96,8 @@ function SearchForm({ onSubmit, isLoading = false }: SearchFormProps) {
 }
 ```
 
+A pasta `/src/github/` contém as constantes, tipos e utilitários de acesso à API do GitHub e ao armazenamento local (`localStorage`). As pastas `/src/assets/` e `/src/context/` contêm arquivos estáticos e as definições de uso da API `Context`, respectivamente, conforme as convenções da comunidade.
+
 ## Consumo de APIs
 
 As APIs utilizadas no projeto são:
@@ -123,3 +123,20 @@ async function fetchUserData(username: string): Promise<UserData> {
   }
 }
 ```
+
+## Limites de taxa da API do GitHub
+
+https://docs.github.com/pt/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28
+
+Conforme a documentação da API (veja o link acima), o limite para requisições não autenticadas é de 60 requisições por hora por IP. Testar a aplicação no início do desenvolvimento foi difícil. Alguns minutos salvando alterações no código já causaram o estouro do limite. Eu pensei primeiro em gerar um token de autenticação ou um Github App para poder aumentar o limite, mas não poderia expor nenhum token no frontend, e criar um servidor só pra acessar a API fugiria do escopo do projeto.
+
+A solução que eu decidi implementar foi um sistema de "cache" armazenando as buscas feitas no computador do usuário. Com isso, os dados salvos possibilitaram a exposição do histórico de busca em uma lista acessível para o usuário na página inicial, melhorando a experiência do usuário.
+
+Adicionalmente, o usuário pode recarregar os dados de um item do histórico clicando no ícone de recarregar em cada linha ou apagar todos os dados armazenados clicando no botão "Limpar Histórico".
+
+## Últimas considerações
+
+- O logo do aplicativo e a imagem de fundo foram editados a partir de imagens vetoriais fornecidas pelo [Freepik](https://www.freepik.com/)
+- Todas as edições de imagens foram feitas com o [Inkscape](https://inkscape.org/pt-br/).
+- As imagens foram otimizadas no [TinyPNG](https://tinypng.com/).
+- As capturas de tela foram feitas com o comando "Capture Screenshot" do painel DevTools do Google Chrome (pressione F12 para ver).
