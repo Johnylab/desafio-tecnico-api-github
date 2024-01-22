@@ -2,13 +2,31 @@
 
 Este é um projeto client-side construído em React, utilizando react-router, Typescript e Bootstrap para criar uma aplicação que consulta a API do GitHub para mostrar os repositórios mais populares de um determinado usuário.
 
+O projeto está hospedado no Netlify e pode ser acessado aqui: [OCTOBUSCA: Buscar Usuário do GitHub](https://magnificent-sable-3de464.netlify.app/).
+
+## Rodando este projeto na máquina local
+
+1. Certifique-se de ter o Node.js instalado (https://nodejs.org/en/download/current).
+2. Clone o repositório executando `git clone https://github.com/Johnylab/octobusca` no terminal ou [baixe o código aqui](https://github.com/Johnylab/octobusca).
+3. Navegue até a pasta do projeto e execute `npm install` para instalar as dependências.
+4. Inicie o projeto com `npm start`.
+5. Abra o aplicativo no navegador. Verifique a resposta do terminal para obter o link (geralmente é http://localhost:5173/).
+
 ## Funcionalidades
 
 ### Tela Inicial (HomeScreen)
 
 Permite buscar por um usuário do GitHub.
 
-![Página inicial no primeiro acesso: somente cabeçalho, título, campo de busca e rodapé.](./screenshots/octobusca_home_.png)
+![Página inicial no primeiro acesso: somente cabeçalho, título, campo de busca e rodapé](./screenshots/octobusca_home_.png)
+
+Quando uma busca retorna um usuário, algumas informações são mostradas junto com o link para ver mais detalhes.
+
+![Página inicial com o card mostrando o resultado da busca](./screenshots/octobusca_home_card.png)
+
+As buscas feitas anteriormente são salvas e mostradas embaixo do campo de busca. Além de ser útil para o usuário, os dados salvos ajudam a evitar que o limite da API do GitHub seja atingido muito rapidamente.
+
+![Página inicial com o histórico de buscas listado abaixo do campo de busca](./screenshots/octobusca_home_history.png)
 
 ### Tela do Usuário (UserScreen)
 
@@ -16,15 +34,69 @@ Exibe os detalhes do usuário buscado, incluindo o número de seguidores, númer
 
 Lista os repositórios desse usuário, ordenados pelo número decrescente de estrelas por padrão. A lista de repositórios pode ser ordenada por mais e menos estrelas, observadores ou forks.
 
+![Página do usuário, com detalhes do perfil do GitHub e a lista de Repositórios embaixo](./screenshots/octobusca_user_.png)
+
 ### Tela do Repositório (RepoScreen)
 
 Apresenta detalhes de um repositório, incluindo nome, descrição, número de estrelas, linguagem e um link externo para a página do repositório no GitHub.
 
 Pode ser acessado clicando na listagem dos repositórios na tela anterior (UserScreen).
 
+![Página do repositório, com detalhes disponíveis dependendo de cada repositório selecionado](./screenshots/octobusca_repo_.png)
+
 ## Organização do Projeto
 
-O projeto segue uma estrutura organizada para facilitar o desenvolvimento e manutenção. A documentação detalhada sobre a estrutura do projeto, bem como o controle de versão, pode ser encontrada nos arquivos específicos.
+O projeto segue uma estrutura organizada para facilitar o desenvolvimento e manutenção. Seguem algumas convenções:
+
+A pasta `/src/screens/` contém as páginas renderizadas pelo `RouterProvider` definido em `/src/Routes.tsx`.
+
+A pasta `/src/components/` contém uma pasta para cada página (sem o sufixo 'Screen'), contendo os componentes de interface de usuário de cada uma. Diferente dos componentes em `screens`, os componentes de IU não acessam a API `Context` diretamente e possuem o mínimo de lógica possível. Todos os dados são recebidos através de `props`. Além disso, `components` também contém os componentes do layout (container principal, cabeçalho e rodapé) e outros componentes de interface. Utilitários que não renderizam componentes ficam na pasta `/src/utils/` classificados em arquivos por categoria (tipo de dado ou API específica que manipulam).
+
+A pasta `/src/github/` contém as contantes, tipos e utilitários de acesso à API do GitHub e ao armazenamento local (`localStorage`). As pastas `/src/assets/` e `/src/context/` contém arquivos estáticos e as definições de uso da API `Context`, respectivamente, conforme as convenções da comunidade.
+
+Exemplo:
+
+```tsx
+// src/components/Home/SearchForm.tsx
+
+type SearchFormProps = {
+  onSubmit: (username: string) => void;
+  isLoading?: boolean;
+};
+
+function SearchForm({ onSubmit, isLoading = false }: SearchFormProps) {
+  const [username, setUsername] = useState('');
+
+  function onSearchInput(e: ChangeEvent<HTMLInputElement>) {
+    setUsername(e.target.value);
+  }
+
+  function onSearchSubmit(e: FormEvent) {
+    e.preventDefault();
+    onSubmit(username);
+  }
+
+  return (
+    <Container className="my-3">
+      <h1>Buscar usuário do GitHub</h1>
+
+      <Form onSubmit={onSearchSubmit}>
+        <InputGroup>
+          <FormControl
+            type="text"
+            placeholder="Digite o nome do usuário"
+            value={username}
+            onInput={onSearchInput}
+          />
+          <Button variant="secondary" type="submit" disabled={isLoading}>
+            <Search aria-label="Pesquisar" />
+          </Button>
+        </InputGroup>
+      </Form>
+    </Container>
+  );
+}
+```
 
 ## Consumo de APIs
 
@@ -34,4 +106,20 @@ As APIs utilizadas no projeto são:
 - Repositórios de um usuário: `https://api.github.com/users/{username}/repos`
 - Detalhes de um repositório: `https://api.github.com/repos/{full_name}` *
 
-\* Esta última se mostrou redundante no final do desenvolvimento da conexão com a API.
+\* Esta última se mostrou redundante durante o desenvolvimento da interface com a API.
+
+Exemplo:
+
+```ts
+// src/github/api.ts
+
+async function fetchUserData(username: string): Promise<UserData> {
+  try {
+    const userResponse = await fetch(`https://api.github.com/users/${username}`);
+    const userProfile = await userResponse.json();
+    return userProfile;
+  } catch (err) {
+    return { message: err.message };
+  }
+}
+```
