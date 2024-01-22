@@ -7,8 +7,8 @@ import {
   PeopleFill,
   PersonCircle,
 } from 'react-bootstrap-icons';
-import { UserData } from '../../github/api';
 import { userTypes } from '../../github/constants';
+import type { UserData } from '../../github/types';
 import CountDisplay from '../CountDisplay';
 
 type UserProfileProps = {

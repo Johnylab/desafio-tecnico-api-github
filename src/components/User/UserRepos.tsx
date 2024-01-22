@@ -15,7 +15,7 @@ import {
 } from 'react-bootstrap';
 import { Diagram2, Eye, Search, SortDown, Star } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
-import { Repository } from '../../github/api';
+import type { Repository } from '../../github/types';
 import { searchByKeys, sortByKey } from '../../utils/array';
 import Pluralize from '../Pluralize';
 

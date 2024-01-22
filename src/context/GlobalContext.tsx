@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import { createContext, useCallback, useState } from 'react';
-import { UserData, fetchUserData } from '../github/api';
+import { fetchUserData } from '../github/api';
+import type { UserData } from '../github/types';
 import { getStorage, setStorage } from '../utils/storage';
 
 type GlobalContextType = {

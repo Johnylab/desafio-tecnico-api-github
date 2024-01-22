@@ -1,7 +1,7 @@
 import { Card, Col, Container, Image, Row, Spinner } from 'react-bootstrap';
 import { Git, HeartFill, PeopleFill } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
-import { UserData } from '../../github/api';
+import type { UserData } from '../../github/types';
 import CountDisplay from '../CountDisplay';
 
 type SearchResultProps = {

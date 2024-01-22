@@ -1,13 +1,13 @@
 import { Badge, Col, Container, Row, Stack } from 'react-bootstrap';
 import {
   BoxArrowUpRight,
-  Globe,
-  Star,
-  Eye,
   Diagram2,
   ExclamationSquare,
+  Eye,
+  Globe,
+  Star,
 } from 'react-bootstrap-icons';
-import { Repository } from '../../github/api';
+import type { Repository } from '../../github/types';
 import CountDisplay from '../CountDisplay';
 
 type RepoDetailsProps = {

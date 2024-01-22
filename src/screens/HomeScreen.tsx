@@ -2,8 +2,8 @@ import { useContext, useState } from 'react';
 import SearchForm from '../components/Home/SearchForm';
 import SearchHistory from '../components/Home/SearchHistory';
 import SearchResult from '../components/Home/SearchResult';
-import { UserData } from '../github/api';
 import { GlobalContext } from '../context/GlobalContext';
+import type { UserData } from '../github/types';
 
 function HomeScreen() {
   const [searchResult, setSearchResult] = useState<UserData>({});
