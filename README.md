@@ -1,30 +1,35 @@
-# React + TypeScript + Vite
+# OctoBusca
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este é um projeto client-side construído em React, utilizando react-router, Typescript e Bootstrap para criar uma aplicação que consulta a API do GitHub para mostrar os repositórios mais populares de um determinado usuário.
 
-Currently, two official plugins are available:
+## Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Tela Inicial (HomeScreen)
 
-## Expanding the ESLint configuration
+Permite buscar por um usuário do GitHub.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Tela do Usuário (UserScreen)
 
-- Configure the top-level `parserOptions` property like this:
+Exibe os detalhes do usuário buscado, incluindo o número de seguidores, número de seguidos, imagem do avatar, e-mail, biografia, etc.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+Lista os repositórios desse usuário, ordenados pelo número decrescente de estrelas por padrão. A lista de repositórios pode ser ordenada por mais e menos estrelas, observadores ou forks.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Tela do Repositório (RepoScreen)
+
+Apresenta detalhes de um repositório, incluindo nome, descrição, número de estrelas, linguagem e um link externo para a página do repositório no GitHub.
+
+Pode ser acessado clicando na listagem dos repositórios na tela anterior (UserScreen).
+
+## Organização do Projeto
+
+O projeto segue uma estrutura organizada para facilitar o desenvolvimento e manutenção. A documentação detalhada sobre a estrutura do projeto, bem como o controle de versão, pode ser encontrada nos arquivos específicos.
+
+## Consumo de APIs
+
+As APIs utilizadas no projeto são:
+
+- Detalhes de um usuário: `https://api.github.com/users/{username}`
+- Repositórios de um usuário: `https://api.github.com/users/{username}/repos`
+- Detalhes de um repositório: `https://api.github.com/repos/{full_name}` *
+
+\* Esta última se mostrou redundante no final do desenvolvimento da conexão com a API.
