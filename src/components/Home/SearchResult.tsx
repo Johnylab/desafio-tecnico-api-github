@@ -45,7 +45,7 @@ function SearchResult({ data, isLoading }: SearchResultProps) {
               <Link to={`/${data.login}`}>{data.name || data.login}</Link>
             </p>
 
-            <Row as="p">
+            <Row className="mb-2">
               <Col>
                 <CountDisplay
                   icon={Git}
