@@ -31,19 +31,19 @@ function AppHeader() {
       <Container>
         <Breadcrumb listProps={{ className: 'm-0' }}>
           {username ? (
-            <Breadcrumb.Item>
-              <Link to="/">Início</Link>
-            </Breadcrumb.Item>
+            <Breadcrumb.Item href="/">Início</Breadcrumb.Item>
           ) : (
             <Breadcrumb.Item active>Início</Breadcrumb.Item>
           )}
+
           {username && !reponame && (
             <Breadcrumb.Item active>{userLabel}</Breadcrumb.Item>
           )}
+
           {reponame && (
             <>
-              <Breadcrumb.Item>
-                <Link to={`/${username}`}>{userLabel}</Link>
+              <Breadcrumb.Item href={`/${username}`}>
+                {userLabel}
               </Breadcrumb.Item>
               <Breadcrumb.Item active>{repoLabel}</Breadcrumb.Item>
             </>
