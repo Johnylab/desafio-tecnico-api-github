@@ -57,7 +57,11 @@ export const GlobalProvider = ({ children }: PropsWithChildren) => {
       : response;
     setUserData(data);
     setIsLoading(false);
-    userStorage.set(storageKey, data);
+
+    if (data.login) {
+      userStorage.set(storageKey, data);
+    }
+
     return data;
   },
   []);
